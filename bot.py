@@ -240,8 +240,11 @@ def tokens(message):
         logging.debug(f"Возникла ошибка в поле tokens")
 
 while True:
-    create_new_token()
-    time.sleep(39600)
-    logging.debug(f"Новый ключ")
+    try:
+        create_new_token()
+        time.sleep(39600)
+        logging.debug(f"Новый ключ")
+    except:
+        logging.debug(f"Создать ключ не удалось")
 
 bot.polling()

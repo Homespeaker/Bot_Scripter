@@ -93,7 +93,7 @@ def new_iam_token(command):
     cur = connection.cursor()
     cur.execute(
         'UPDATE gpt_technic_base SET iam_token = ? WHERE numb = 1;',
-        (command, )
+        (command,)
     )
     connection.commit()
     connection.close()
