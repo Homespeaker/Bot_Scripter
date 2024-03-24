@@ -17,8 +17,7 @@ logging.basicConfig(
 def help(message):
     bot.send_message(message.chat.id, "/start - старт, что тут спрашивать\n"
                                       "/clear_users_base - очистить количество пользователей взаимодействующих с ботом\n"
-                                      "/clear_base - полная очистка базы пользователей\n"
-                                      "/create_table - создать таблицу для тех данных, выполняется только один раз")
+                                      "/clear_base - полная очистка базы пользователей")
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -63,10 +62,6 @@ def clear(message):
     clear_base()
     bot.send_message(message.chat.id, "База очищена")
 
-@bot.message_handler(commands=['create_table'])
-def create_table(message):
-    create_table_new()
-    bot.send_message(message.chat.id, "Отчетность создана")
 
 @bot.message_handler(commands=['comedy'])
 def comedy(message):

@@ -1,6 +1,7 @@
 import sqlite3
 
 
+
 def create_datatable():
     connection = sqlite3.connect('data.db', timeout=20)
     cur = connection.cursor()

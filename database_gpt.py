@@ -1,7 +1,8 @@
 import sqlite3
-
+rule_for_table = False
 
 def create_datatable_for_gpt():
+    global rule_for_table
     connection = sqlite3.connect('technic_data.db', timeout=20)
     cur = connection.cursor()
 
@@ -16,6 +17,9 @@ def create_datatable_for_gpt():
     cur.execute(query)
     connection.commit()
     connection.close()
+    if not rule_for_table:
+        create_table_new()
+        rule_for_table = True
 
 def create_table_new():
     connection = sqlite3.connect('technic_data.db', timeout=20)
