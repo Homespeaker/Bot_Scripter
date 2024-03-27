@@ -8,5 +8,5 @@ def create_new_token():
     response = requests.get(metadata_url, headers=headers)
     print(response.json())
     print(response.json()["access_token"])
-    new_iam_token(response.json()["access_token"])
+    new_iam_token(f"{response.json()["access_token"]}")
     timez_new((response.json())["expires_in"])
