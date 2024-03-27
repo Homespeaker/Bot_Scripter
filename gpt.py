@@ -11,10 +11,12 @@ folder_id = 'b1g8ttv0k823647abdcg'
 def ask_gpt(text, user_id):
     # try:
         if tokens() < 15000:
+            jepa = iam_tokens()
+            print(jepa)
             if timez() < time.time():
                 create_new_token()
-                timez_new(time.time() + iam_tokens()["expires_in"])
-            iam_token = iam_tokens()["access_token"]
+                timez_new(time.time() + jepa["expires_in"])
+            iam_token = jepa["access_token"]
             system_content = content_for_user(user_id)
             headers = {
                 'Authorization': f'Bearer {iam_token}',
