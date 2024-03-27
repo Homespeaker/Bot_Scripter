@@ -6,5 +6,6 @@ def create_new_token():
     metadata_url = "http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token"
     headers = {"Metadata-Flavor": "Google"}
     response = requests.get(metadata_url, headers=headers)
+    print(response.json())
     new_iam_token((response.json())["access_token"])
     timez_new((response.json())["expires_in"])
