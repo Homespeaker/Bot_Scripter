@@ -160,7 +160,7 @@ def tokens(message):
 
 @bot.message_handler(commands=['start_the_generating'])
 def strt_gen(message):
-    try:
+    # try:
         if check_verse(message.from_user.id) and check_name(message.from_user.id) and check_janr(message.from_user.id):
             if content_ses(message.from_user.id) < 4:
                 logging.debug(f"Первый ввод, без слов")
@@ -180,9 +180,9 @@ def strt_gen(message):
                                                   'свяжитесь с администратором бота или дождитесь его обновления.')
         else:
             bot.send_message(message.chat.id, 'Сначала нажми /start и полностью пройди процесс моей настройки.')
-    except:
-        bot.send_message(message.chat.id, 'Возникла ошибка в поле start_the_generating')
-        logging.debug(f"Возникла ошибка в поле start_the_generating")
+    # except:
+    #     bot.send_message(message.chat.id, 'Возникла ошибка в поле start_the_generating')
+    #     logging.debug(f"Возникла ошибка в поле start_the_generating")
 
 
 @bot.message_handler(content_types=['text'])
