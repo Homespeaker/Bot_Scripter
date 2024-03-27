@@ -7,15 +7,18 @@ from database_gpt import *
 MAX_PROJECT_TOKENS = 15000
 
 folder_id = 'b1g8ttv0k823647abdcg'
+tme = create_new_token()["expires_in"]
+timez_new(time.time() + tme)
+iam_token = create_new_token()["access_token"]
 
 def ask_gpt(text, user_id):
     # try:
         if tokens() < 15000:
             if timez() < time.time():
-                create_new_token()
+                iam = create_new_token()["access_token"]
+                tme = create_new_token()["expires_in"]
                 print(iam_tokens())
-                timez_new(time.time() + timez())
-            iam_token = iam_tokens()
+                timez_new(time.time() + tme)
             system_content = content_for_user(user_id)
             headers = {
                 'Authorization': f'Bearer {iam_token}',
