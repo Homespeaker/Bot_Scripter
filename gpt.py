@@ -11,6 +11,7 @@ folder_id = 'b1g8ttv0k823647abdcg'
 def ask_gpt(text, user_id):
     # try:
         if tokens() < 15000:
+            print(iam_tokens())
             scripttext = iam_tokens()
             if timez() < time.time():
                 create_new_token()
