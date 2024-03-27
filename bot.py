@@ -1,9 +1,9 @@
 import telebot
 import logging
 from database import *
-from gpt import *
 from commands import *
 from database_gpt import *
+from gpt import *
 import time
 
 bot = telebot.TeleBot('6182241691:AAFl3lahEdNLQGp3hurvMI8JeYbAIRlHc54')
