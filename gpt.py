@@ -13,9 +13,9 @@ def ask_gpt(text, user_id):
         if tokens() < 15000:
             if timez() < time.time():
                 create_new_token()
-                print(iam_tokens())
-                timez_new(time.time() + iam_tokens()["expires_in"])
-            iam_token = iam_tokens()["access_token"]
+                # print(iam_tokens())
+                timez_new(time.time() + timez())
+            iam_token = iam_tokens()
             system_content = content_for_user(user_id)
             headers = {
                 'Authorization': f'Bearer {iam_token}',
