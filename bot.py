@@ -3,6 +3,7 @@ import logging
 from database import *
 from commands import *
 from database_gpt import *
+create_datatable_for_gpt()
 from gpt import *
 import time
 
