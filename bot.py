@@ -160,10 +160,10 @@ def tokens(message):
 
 @bot.message_handler(commands=['start_the_generating'])
 def strt_gen(message):
-    # try:
-        if content_ses(message.from_user.id) < 4:
-            logging.debug(f"Первый ввод, без слов")
-            if check_verse(message.from_user.id) and check_name(message.from_user.id) and check_janr(message.from_user.id):
+    try:
+        if check_verse(message.from_user.id) and check_name(message.from_user.id) and check_janr(message.from_user.id):
+            if content_ses(message.from_user.id) < 4:
+                logging.debug(f"Первый ввод, без слов")
                 bot.send_message(message.chat.id, "Окей, начинаю генерацию твоего запроса.")
                 user_question("Напиши сценарий.", message.from_user.id)
                 if content_num(message.from_user.id) == 0:
@@ -176,13 +176,13 @@ def strt_gen(message):
                                      'В случае если ты хочешь создать новый сценарий просто нажми /start.')
                     user_num(1, message.from_user.id)
             else:
-                bot.send_message(message.chat.id, 'Сначала нажми /start и полностью пройди процесс моей настройки.')
+                bot.send_message(message.chat.id, 'К сожалению вы потратили все доступные сессии, для повторного обращения '
+                                                  'свяжитесь с администратором бота или дождитесь его обновления.')
         else:
-            bot.send_message(message.chat.id, 'К сожалению вы потратили все доступные сессии, для повторного обращения '
-                                              'свяжитесь с администратором бота или дождитесь его обновления.')
-    # except:
-    #     bot.send_message(message.chat.id, 'Возникла ошибка в поле start_the_generating')
-    #     logging.debug(f"Возникла ошибка в поле start_the_generating")
+            bot.send_message(message.chat.id, 'Сначала нажми /start и полностью пройди процесс моей настройки.')
+    except:
+        bot.send_message(message.chat.id, 'Возникла ошибка в поле start_the_generating')
+        logging.debug(f"Возникла ошибка в поле start_the_generating")
 
 
 @bot.message_handler(content_types=['text'])
@@ -241,12 +241,5 @@ def text_for_gpt(message):
 
 
 
-# while True:
-#     try:
-#         create_new_token()
-#         time.sleep(39600)
-#         logging.debug(f"Новый ключ")
-#     except:
-#         logging.debug(f"Создать ключ не удалось")
 
 bot.polling()

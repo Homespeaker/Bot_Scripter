@@ -90,8 +90,7 @@ def new_iam_token(command):
     connection = sqlite3.connect('technic_data.db')
     cur = connection.cursor()
     cur.execute(
-        'UPDATE gpt_technic_base SET iam_token = ? WHERE numb = 1;',
-        (command,)
+        f'UPDATE gpt_technic_base SET iam_token = {command} WHERE numb = 1;'
     )
     connection.commit()
     connection.close()
