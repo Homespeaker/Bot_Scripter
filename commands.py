@@ -7,4 +7,3 @@ def create_new_token():
     headers = {"Metadata-Flavor": "Google"}
     response = requests.get(metadata_url, headers=headers)
     new_iam_token(response.json())
-    return response.json()
