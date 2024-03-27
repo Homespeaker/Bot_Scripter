@@ -11,7 +11,8 @@ def create_datatable_for_gpt():
         numb INTEGER,
         all_tokens INTEGER, 
         users INTEGER,
-        iam_token TEXT
+        iam_token TEXT,
+        time INTEGER
         );
     '''
     cur.execute(query)
@@ -25,8 +26,8 @@ def create_table_new():
     connection = sqlite3.connect('technic_data.db', timeout=20)
     cur = connection.cursor()
     cur.execute(
-        'INSERT INTO gpt_technic_base VALUES(?, ?, ?, ?);',
-        (1, 0, 0, "d")
+        'INSERT INTO gpt_technic_base VALUES(?, ?, ?, ?, ?);',
+        (1, 0, 0, "d", 0)
     )
     connection.commit()
     connection.close()
@@ -40,15 +41,12 @@ def tokens():
     if results != 0:
         return results[0]
     else:
-        return
+        return 0
 
 def new_tokens(command):
     connection = sqlite3.connect('technic_data.db')
     cur = connection.cursor()
-    cur.execute(
-        'UPDATE gpt_technic_base SET all_tokens = ? WHERE numb = 1;',
-        (command)
-    )
+    cur.execute(f'UPDATE gpt_technic_base SET all_tokens = {command} WHERE numb = 1;')
     connection.commit()
     connection.close()
 
@@ -98,9 +96,30 @@ def new_iam_token(command):
     connection.commit()
     connection.close()
 
-def clear_users_base():
+def clear_users_bas():
     connection = sqlite3.connect('technic_data.db.db')
     cur = connection.cursor()
-    cur.execute('DELETE users FROM users_base WHERE numb = 1;')
+    cur.execute('UPDATE gpt_technic_base SET users = 0 WHERE numb = 1;')
+    connection.commit()
+    connection.close()
+
+def timez():
+    connection = sqlite3.connect('technic_data.db')
+    cur = connection.cursor()
+    query = f'SELECT time FROM gpt_technic_base WHERE numb = 1;'
+    results = cur.execute(query).fetchone()
+    connection.close()
+    if results != 0:
+        return results[0]
+    else:
+        return
+
+def timez_new(command):
+    connection = sqlite3.connect('technic_data.db')
+    cur = connection.cursor()
+    cur.execute(
+        'UPDATE gpt_technic_base SET time = ? WHERE numb = 1;',
+        (command,)
+    )
     connection.commit()
     connection.close()

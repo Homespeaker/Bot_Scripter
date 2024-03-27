@@ -54,7 +54,7 @@ def start(message):
 
 @bot.message_handler(commands=['clear_users_base'])
 def clear_users_base(message):
-    clear_users_base()
+    clear_users_bas()
     bot.send_message(message.chat.id, "Количество пользователей очищено, открыт полный доступ к базе.")
 
 @bot.message_handler(commands=['clear_base'])
@@ -140,18 +140,36 @@ def stalker(message):
                                       "просто напиши их мне, или нажми на команду /start_the_generating в случае, если нету никаких дополнений.")
     verse('stalker', message.from_user.id)
 
+@bot.message_handler(commands=['all_story'])
+def all_story(message):
+    try:
+        bot.send_message(message.chat.id, question_us(message.from_user.id))
+        bot.send_message(message.chat.id, "Теперь нажми /start для генераций новых запросов.")
+    except:
+        bot.send_message(message.chat.id, 'Возникла ошибка в поле all_story')
+        logging.debug(f"Возникла ошибка в поле all_story")
+
+@bot.message_handler(commands=['tokens'])
+def tokens(message):
+    try:
+        bot.send_message(message.chat.id, f"Количество потраченных токенов - {tokens()}")
+        bot.send_message(message.chat.id, f"Количество оставшихся токенов - {13000 - tokens()}")
+    except:
+        bot.send_message(message.chat.id, 'Возникла ошибка в поле tokens')
+        logging.debug(f"Возникла ошибка в поле tokens")
+
 @bot.message_handler(commands=['start_the_generating'])
 def strt_gen(message):
-    try:
+    # try:
         if content_ses(message.from_user.id) < 4:
             logging.debug(f"Первый ввод, без слов")
             if check_verse(message.from_user.id) and check_name(message.from_user.id) and check_janr(message.from_user.id):
                 bot.send_message(message.chat.id, "Окей, начинаю генерацию твоего запроса.")
                 user_question("Напиши сценарий.", message.from_user.id)
                 if content_num(message.from_user.id) == 0:
-                    text = ask_gpt(question_us(message.from_user.id), message.from_user.id)
+                    text = ask_gpt("напиши сценарий", message.from_user.id)
                     bot.send_message(message.chat.id, text)
-                    user_question("//Напиши сценарий.// " + text, message.from_user.id)
+                    user_question("//Напиши сценарий.// " + ask_gpt(question_us(message.from_user.id), message.from_user.id), message.from_user.id)
                     bot.send_message(message.chat.id,
                                      'Теперь ты можешь внести правки в сценарий, или попросить меня его продолжить.')
                     bot.send_message(message.chat.id,
@@ -162,9 +180,9 @@ def strt_gen(message):
         else:
             bot.send_message(message.chat.id, 'К сожалению вы потратили все доступные сессии, для повторного обращения '
                                               'свяжитесь с администратором бота или дождитесь его обновления.')
-    except:
-        bot.send_message(message.chat.id, 'Возникла ошибка в поле start_the_generating')
-        logging.debug(f"Возникла ошибка в поле start_the_generating")
+    # except:
+    #     bot.send_message(message.chat.id, 'Возникла ошибка в поле start_the_generating')
+    #     logging.debug(f"Возникла ошибка в поле start_the_generating")
 
 
 @bot.message_handler(content_types=['text'])
@@ -221,30 +239,14 @@ def text_for_gpt(message):
         bot.send_message(message.chat.id, 'Возникла ошибка в поле text')
         logging.debug(f"Возникла ошибка в поле text")
 
-@bot.message_handler(commands=['all_story'])
-def all_story(message):
-    try:
-        bot.send_message(message.chat.id, question_us(message.from_user.id))
-        bot.send_message(message.chat.id, "Теперь нажми /start для генераций новых запросов.")
-    except:
-        bot.send_message(message.chat.id, 'Возникла ошибка в поле all_story')
-        logging.debug(f"Возникла ошибка в поле all_story")
 
-@bot.message_handler(commands=['tokens'])
-def tokens(message):
-    try:
-        bot.send_message(message.chat.id, f"Количество потраченных токенов - {tokens()}")
-        bot.send_message(message.chat.id, f"Количество оставшихся токенов - {13000 - tokens()}")
-    except:
-        bot.send_message(message.chat.id, 'Возникла ошибка в поле tokens')
-        logging.debug(f"Возникла ошибка в поле tokens")
 
-while True:
-    try:
-        create_new_token()
-        time.sleep(39600)
-        logging.debug(f"Новый ключ")
-    except:
-        logging.debug(f"Создать ключ не удалось")
+# while True:
+#     try:
+#         create_new_token()
+#         time.sleep(39600)
+#         logging.debug(f"Новый ключ")
+#     except:
+#         logging.debug(f"Создать ключ не удалось")
 
 bot.polling()

@@ -1,4 +1,5 @@
 import requests
+import time
 from database import *
 from commands import *
 from database_gpt import *
@@ -6,12 +7,14 @@ from database_gpt import *
 MAX_PROJECT_TOKENS = 15000
 
 folder_id = 'b1g8ttv0k823647abdcg'
-iam_token = ''
 
 def ask_gpt(text, user_id):
-    try:
+    # try:
         if tokens() < 15000:
-            iam_token = iam_tokens()
+            if timez() < time.time():
+                create_new_token()
+                timez_new(time.time() + iam_tokens()["expires_in"])
+            iam_token = iam_tokens()["access_token"]
             system_content = content_for_user(user_id)
             headers = {
                 'Authorization': f'Bearer {iam_token}',
@@ -44,12 +47,13 @@ def ask_gpt(text, user_id):
             # Проверяем, не произошла ли ошибка при запросе
             if response.status_code == 200:
                 text = response.json()["result"]["alternatives"][0]["message"]["text"]
-                new_tokens(tokens() + len(text))
+                # a = tokens() + len(text)
+                # new_tokens(a)
                 return text
         else:
             return "К сожалению токены закончились :("
-    except:
-        return "гпт не работает, возможно стоит попробовать команду /key для обновления токена."
+    # except:
+    #     return "гпт не работает, возможно стоит попробовать команду /key для обновления токена."
 
     # else:
     #     raise RuntimeError(
