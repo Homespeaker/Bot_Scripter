@@ -11,6 +11,23 @@ tme = create_new_token()["expires_in"]
 timez_new(time.time() + tme)
 iam_token = create_new_token()["access_token"]
 
+def count_tokens(text, iam):
+    headers = { # заголовок запроса, в котором передаем IAM-токен
+        'Authorization': f'Bearer {iam}', # token - наш IAM-токен
+        'Content-Type': 'application/json'
+    }
+    data = {
+       "modelUri": f"gpt://{folder_id}/yandexgpt/latest", # указываем folder_id
+       "maxTokens": 200,
+       "text": text # text - тот текст, в котором мы хотим посчитать токены
+    }
+    return len(
+        requests.post(
+            "https://llm.api.cloud.yandex.net/foundationModels/v1/tokenize",
+            json=data,
+            headers=headers
+        ).json()['tokens'])
+
 def ask_gpt(text, user_id):
     # try:
         if tokens() < 15000:
@@ -20,8 +37,9 @@ def ask_gpt(text, user_id):
                 print(iam_tokens())
                 timez_new(time.time() + tme)
             system_content = content_for_user(user_id)
+
             headers = {
-                'Authorization': f'Bearer {iam_token}',
+                'Authorization': f'Bearer {iam}',
                 'Content-Type': 'application/json'
             }
             data = {
@@ -51,8 +69,8 @@ def ask_gpt(text, user_id):
             # Проверяем, не произошла ли ошибка при запросе
             if response.status_code == 200:
                 text = response.json()["result"]["alternatives"][0]["message"]["text"]
-                # a = tokens() + len(text)
-                # new_tokens(a)
+                a = tokens() + count_tokens(text, iam)
+                new_tokens(a)
                 return text
         else:
             return "К сожалению токены закончились :("

@@ -159,6 +159,13 @@ def tokens(message):
         bot.send_message(message.chat.id, 'Возникла ошибка в поле tokens')
         logging.debug(f"Возникла ошибка в поле tokens")
 
+
+@bot.message_handler(commands=['debug'])
+def send_logs(message):
+    with open("log_file.txt", "rb") as f:
+        bot.send_document(message.chat.id, f)
+
+
 @bot.message_handler(commands=['start_the_generating'])
 def strt_gen(message):
     # try:
