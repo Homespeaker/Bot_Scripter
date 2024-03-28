@@ -23,7 +23,8 @@ logging.basicConfig(
 def help(message):
     bot.send_message(message.chat.id, "/start - старт, что тут спрашивать\n"
                                       "/clear_users_base - очистить количество пользователей взаимодействующих с ботом\n"
-                                      "/clear_base - полная очистка базы пользователей")
+                                      "/clear_base - полная очистка базы пользователей\n"
+                                      "/debug - Отправление логов")
 
 @bot.message_handler(commands=['start'])
 def start(message):
