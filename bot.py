@@ -12,8 +12,13 @@ create_datatable_for_gpt()
 create_datatable()
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    filename="log_file.txt",
+    filemode="w",
 )
+
+
 @bot.message_handler(commands=['help'])
 def help(message):
     bot.send_message(message.chat.id, "/start - старт, что тут спрашивать\n"
